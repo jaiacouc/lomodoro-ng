@@ -232,13 +232,23 @@ $altTheme: (
   foreground: $mat-dark-theme-foreground,
   background: $mat-dark-theme-background,
 );
+$light-theme: mat.define-light-theme($theme);
+$dark-theme: mat.define-dark-theme($altTheme);
 
 // Theme Init
+@include mat.core-theme($light-theme);
+@include mat.button-theme($light-theme);
 @include mat.all-component-themes($theme);
-
-.theme-alternate {
-  @include mat.all-component-themes($altTheme);
+.dark-theme {
+  // Use the `-color` mixins to only apply color styles without reapplying the same
+  // typography and density styles.
+  @include mat.core-color($dark-theme);
+  @include mat.button-color($dark-theme);
+  @include mat.all-component-themes($dark-theme);
 }
+// .dark-theme {
+//   @include mat.all-component-themes($altTheme);
+// }
 
 // Specific component overrides, pieces that are not in line with the general theming
 
