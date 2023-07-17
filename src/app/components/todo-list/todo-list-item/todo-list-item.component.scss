@@ -1,0 +1,27 @@
+@use '@angular/material' as mat;
+
+.todo-list-item {
+  height: 3rem;
+  text-align: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1.5rem;
+}
+
+.item {
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  @include mat.elevation(1);
+  :hover {
+    background-color: rgba(193, 193, 193, 0.35);
+    cursor: pointer;
+  }
+  :active {
+    background-color: rgba(193, 193, 193, 0.8);
+    cursor: grab;
+  }
+}
+
+.mdc-list-item {
+  padding: 0px;
+}

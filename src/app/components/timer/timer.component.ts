@@ -12,6 +12,7 @@ export class TimerComponent {
 
   public timeLeft: string = this.workTime + ':00';
   public stopped: boolean = false;
+  public tabIndex: number = 0;
   private currentTimeSelection: number = this.workTime;
   private working: boolean = true;
   private interval: any;
@@ -22,9 +23,12 @@ export class TimerComponent {
       minutes: this.currentTimeSelection,
     });
     this.interval = setInterval(() => {
-      this.timeLeft = timeEnd
-        .diff(DateTime.now(), ['minutes', 'seconds'])
-        .toFormat('mm:ss');
+      const time = timeEnd.diff(DateTime.now(), ['minutes', 'seconds']);
+      this.timeLeft = time.toFormat('mm:ss');
+      if (time.minutes === 0 && Math.trunc(time.seconds) === 0) {
+        this.timeLeft = '00:00';
+        this.stopTimer();
+      }
     }, 1000);
   }
 
@@ -37,10 +41,12 @@ export class TimerComponent {
     this.stopped = false;
     if (this.working) {
       this.working = false;
+      this.tabIndex = 1;
       this.currentTimeSelection = this.breakTime;
       this.timeLeft = this.breakTime + ':00';
     } else {
       this.working = true;
+      this.tabIndex = 0;
       this.currentTimeSelection = this.workTime;
       this.timeLeft = this.workTime + ':00';
     }

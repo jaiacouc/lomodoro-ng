@@ -1,0 +1,43 @@
+<div class="list-group-container" cdkDropListGroup>
+  <div class="list-group">
+    <h3 class="title">Todo</h3>
+    <hr />
+    <mat-list
+      class="list todo-list"
+      cdkDropList
+      [cdkDropListData]="todoList"
+      (cdkDropListDropped)="dropHandler($event)"
+    >
+      <todo-list-item cdkDrag class="list-item" *ngFor="let listItem of todoList" [name]="listItem"></todo-list-item>
+    </mat-list>
+  </div>
+  <div class="list-group">
+    <h3 class="title">In Progress</h3>
+    <hr />
+    <mat-list
+      class="list in-progress-list"
+      cdkDropList
+      [cdkDropListData]="inProgressList"
+      (cdkDropListDropped)="dropHandler($event)"
+    >
+      <todo-list-item
+        cdkDrag
+        class="list-item"
+        *ngFor="let listItem of inProgressList"
+        [name]="listItem"
+      ></todo-list-item>
+    </mat-list>
+  </div>
+  <div class="list-group">
+    <h3 class="title">Done</h3>
+    <hr />
+    <mat-list
+      class="list done-list"
+      cdkDropList
+      [cdkDropListData]="doneList"
+      (cdkDropListDropped)="dropHandler($event)"
+    >
+      <todo-list-item cdkDrag class="list-item" *ngFor="let listItem of doneList" [name]="listItem"></todo-list-item>
+    </mat-list>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 .timer-card {
   min-width: 10rem;
-  width: 50rem;
+  width: 30rem;
 }
 
 .timer-content {
@@ -11,8 +11,9 @@
 }
 
 .timer-text {
-  font-size: 45px;
+  font-size: 80px;
   font-weight: 600;
+  margin-top: 2rem;
 }
 
 .start-button {
@@ -22,4 +23,8 @@
 .timer-button {
   width: 10rem;
   min-width: 4rem;
+}
+
+.button-container {
+  margin-top: -2rem;
 }
