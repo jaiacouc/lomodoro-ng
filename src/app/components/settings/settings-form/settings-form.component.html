@@ -1,0 +1,15 @@
+<h2 mat-dialog-title [ngClass]="{ 'dark-theme': true }">Settings</h2>
+<div mat-dialog-content [ngClass]="{ 'dark-theme': true }">
+  <form [formGroup]="dialogForm" (ngSubmit)="onSubmit($event)">
+    <div class="content">
+      <mat-form-field>
+        <mat-label>Work Time</mat-label>
+        <input matInput [id]="'work-time'" type="number" formControlName="workTimeControl" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Break Time</mat-label>
+        <input matInput [id]="'break-time'" type="number" formControlName="breakTimeControl" />
+      </mat-form-field>
+    </div>
+  </form>
+</div>

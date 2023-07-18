@@ -10,6 +10,10 @@
   margin-bottom: 2rem;
 }
 
+.timer-content-header {
+  display: flex;
+}
+
 .timer-text {
   font-size: 80px;
   font-weight: 600;
@@ -27,4 +31,12 @@
 
 .button-container {
   margin-top: -2rem;
+}
+
+.settings {
+  margin-left: auto;
+}
+
+.tab-group {
+  margin-left: 8rem;
 }
