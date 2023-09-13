@@ -1,0 +1,35 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16
+    commands:
+      - echo Installing CodeBuild extras - https://github.com/thii/aws-codebuild-extras
+      - curl -fsSL https://raw.githubusercontent.com/thii/aws-codebuild-extras/master/install >> extras.sh && . ./extras.sh
+
+      # install dependencies
+      - cd $CODEBUILD_SRC_DIR/
+      - npm ci
+
+      # Increase Nodejs Heap size
+      - export NODE_OPTIONS=--max_old_space_size=4096
+
+  pre_build:
+    commands:
+      - echo pre build
+      - cd $CODEBUILD_SRC_DIR/
+
+  build:
+    commands:
+      - echo building
+      # build app
+      - cd $CODEBUILD_SRC_DIR
+      - ng build --prod
+
+artifacts:
+  files:
+    - '**/*'

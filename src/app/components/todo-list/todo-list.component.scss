@@ -1,0 +1,22 @@
+@use '@angular/material' as mat;
+
+.list-group-container {
+  display: flex;
+  @include mat.elevation(1);
+}
+
+.list-group {
+  margin-left: 1rem;
+  text-align: center;
+  margin-right: 1rem;
+  margin-top: 0.5rem;
+}
+
+.title {
+  margin: 0;
+}
+
+.list {
+  min-height: 15rem;
+  min-width: 10rem;
+}
