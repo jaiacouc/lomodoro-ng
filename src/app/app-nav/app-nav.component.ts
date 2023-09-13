@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { MenuOption } from '../shared/models/menu-option-model';
+import { Themes } from '../shared/models/themes';
+import { ThemeService } from '../shared/services/theme-service/theme-service.service';
 
 @Component({
   selector: 'app-nav',
@@ -25,7 +27,9 @@ export class AppNavComponent {
     },
   ];
   public menuOpened: boolean = false;
-  public darkMode: boolean = false;
+  public theme: Themes = Themes.Light;
+
+  constructor(private _themeService: ThemeService) {}
 
   public openMenu(): void {
     this.menuOpened = !this.menuOpened;
@@ -35,8 +39,14 @@ export class AppNavComponent {
     this.menuOpened = false;
   }
 
-  public activateDarkMode(): void {
-    this.darkMode = !this.darkMode;
+  public changeTheme(): void {
+    if (this.theme === Themes.Light) {
+      this.theme = Themes.Dark;
+      this._themeService.updateTheme(Themes.Dark);
+    } else {
+      this.theme = Themes.Light;
+      this._themeService.updateTheme(Themes.Light);
+    }
   }
 
   public menuItemSelected(menuItem: MenuOption): void {

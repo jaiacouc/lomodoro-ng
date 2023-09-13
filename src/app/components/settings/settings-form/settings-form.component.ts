@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { Form, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, EventEmitter, Inject } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'settings-form',
@@ -8,18 +8,20 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./settings-form.component.scss'],
 })
 export class SettingsFormComponent {
-  @Output() formSubmitted: EventEmitter<any> = new EventEmitter<any>();
-  public workTime: number = 45;
-  public breakTime: number = 15;
+  public formSubmitted: EventEmitter<any> = new EventEmitter<any>();
+  public dialogForm: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<SettingsFormComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<SettingsFormComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: any,
+  ) {
+    this.dialogForm = new FormGroup({
+      workTimeControl: new FormControl(data.workTime),
+      breakTimeControl: new FormControl(data.breakTime),
+    });
+  }
 
-  public dialogForm: FormGroup = new FormGroup({
-    workTimeControl: new FormControl(45),
-    breakTimeControl: new FormControl(15),
-  });
-
-  public onSubmit(event: any): void {
-    this.formSubmitted.emit(event);
+  public onSubmit(): void {
+    this.formSubmitted.emit(this.dialogForm.value);
   }
 }
