@@ -21,7 +21,7 @@ phases:
     commands:
       - echo building
       # build app
-      - ng build --prod
+      - npm run build:prod
 
 artifacts:
   files:
