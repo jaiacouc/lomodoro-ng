@@ -1,0 +1,26 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo installing yq
+      - pip install -q yq==2.11.1
+
+      - cd $CODEBUILD_SRC_DIR
+      - echo installing dependencies
+      - npm ci
+
+  pre_build:
+    commands:
+      # Set env variables to load aws creds file
+      - AWS_SDK_LOAD_CONFIG=1
+      - REGION=$AWS_REGION
+
+  build:
+    commands:
+      - echo building
