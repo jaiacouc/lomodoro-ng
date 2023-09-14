@@ -8,17 +8,33 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
+      - echo Installing CodeBuild extras - https://github.com/thii/aws-codebuild-extras
+      - curl -fsSL https://raw.githubusercontent.com/thii/aws-codebuild-extras/master/install >> extras.sh && . ./extras.sh
+
       # install dependencies
-      - echo installing dependencies
+      - echo installing dependecies
+      - cd $CODEBUILD_SRC_DIR/
       - npm ci
+
+      # Increase Nodejs Heap size
+      - echo increase heap size
+      - export NODE_OPTIONS=--max_old_space_size=4096
 
   pre_build:
     commands:
       # execute prebuild commands
       - echo pre build
 
+      - cd $CODEBUILD_SRC_DIR/
+
+      # Get the package version
+      - PACKAGE_VERSION=$(cat package.json | jq -j '.version')
+      - VERSION=$PACKAGE_VERSION+$CODEBUILD_GIT_SHORT_COMMIT+$CODEBUILD_START_TIME
+      - echo "Package version is $PACKAGE_VERSION" && echo "Long version is $VERSION"
+
   build:
     commands:
+      - cd $CODEBUILD_SRC_DIR/
       - echo building
       # build app
       - npm run build:prod
