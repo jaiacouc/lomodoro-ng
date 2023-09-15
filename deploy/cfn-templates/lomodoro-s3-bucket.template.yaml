@@ -2,17 +2,17 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: Deploy a static domain s3 bucket
 Resources:
   LomodoroContentBucket:
-  Type: AWS::S3::Bucket
-  Properties:
-    PublicAccessBlockConfiguration:
-      BlockPublicAcls: true
-      BlockPublicPolicy: true
-      IgnorePublicAcls: true
-      RestrictPublicBuckets: true
-    BucketName: 'lomodoro-ui-bucket'
-    WebsiteConfiguration:
-      ErrorDocument: '404.html'
-      IndexDocument: index.html
+    Type: AWS::S3::Bucket
+    Properties:
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketName: 'lomodoro-ui-bucket'
+      WebsiteConfiguration:
+        ErrorDocument: '404.html'
+        IndexDocument: index.html
 
   LomodoroContentBucketPolicy:
     Type: AWS::S3::BucketPolicy
