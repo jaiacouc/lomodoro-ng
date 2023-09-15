@@ -2,10 +2,10 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: Route 53 routing to domain name
 Parameters:
   DomainName:
-    Description: Domain name such as www.mysite.com
+    Description: Domain name to route to
     Type: String
   HostedZoneId:
-    Description: ID of the Hosted Zone to create the cert increase
+    Description: ID of the Hosted Zone
     Type: String
   CloudFrontDistroDomainName:
     Description: CD Distro ID
@@ -14,7 +14,7 @@ Parameters:
 
 Resources:
   CFAlias:
-    Type: AWS::Route53::RecordSetGroup
+    Type: AWS::Route53::RecordSet
     Properties:
       Name: !Ref DomainName
       Type: A

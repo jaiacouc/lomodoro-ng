@@ -32,4 +32,4 @@ Outputs:
   LomodoroDomainCertificate:
     Condition: IsAutoCert
     Value: !Ref Certificate
-    Description: M2 Solutions Web UI Custom Domain Certificate
+    Description: Lomodoro web cert for ssl
