@@ -7,7 +7,7 @@ Parameters:
   HostedZoneId:
     Description: ID of the Hosted Zone to create the cert increase
     Type: String
-  CFDistroID:
+  CloudFrontDistroDomainName:
     Description: CD Distro ID
     Type: String
     Default: true
@@ -21,4 +21,4 @@ Resources:
       HostedZoneId: !Ref HostedZoneId #Zone ID of the target domain in ROUTE53
       AliasTarget:
         HostedZoneId: Z2FDTNDATAQYW2 #Always is this ID when targeting a CF Distro
-        DNSName: !Ref CFDistroID
+        DNSName: !Ref CloudFrontDistroDomainName
