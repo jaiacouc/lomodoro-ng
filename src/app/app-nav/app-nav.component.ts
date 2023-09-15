@@ -12,7 +12,7 @@ export class AppNavComponent {
   public menuOptions: MenuOption[] = [
     {
       name: 'Pomodoro Timer',
-      link: 'pomodoro-component',
+      link: 'pomodoro',
       selected: true,
     },
     {

@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: AWS CloudFormation template for creating a cf distro
+
+Parameters:
+  BucketDomain:
+    Description: Domain name for ui bucket
+    Type: String
+  DomainName:
+    Description: The Custom domain name
+    Type: String
+  OriginAccessId:
+    Description: The OAC Id
+    Type: String
+  CertificateArn:
+    Description: The arn of the cert
+    Type: String
+
+Resources:
+  LomodoroCloudFrontDistro:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+          - DomainName: !Ref BucketDomain
+            Id: !Ref BucketDomain
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub origin-access-identity/cloudfront/${OriginAccessId}
+        Enabled: true
+        Comment: Cloudfront distro for lomodoro web ui
+        DefaultRootObject: index.html
+        Aliases:
+          - !Ref DomainName
+        DefaultCacheBehavior:
+          AllowedMethods: ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'PATCH', 'POST', 'PUT']
+          CachedMethods: ['GET', 'HEAD', 'OPTIONS']
+          TargetOriginId: !Ref BucketDomain
+          ViewerProtocolPolicy: redirect-to-https
+          ForwardedValues:
+            QueryString: false
+        CustomErrorResponses:
+          - ErrorCode: 404
+            ResponsePagePath: '/index.html'
+            ResponseCode: 200
+            ErrorCachingMinTTL: 30
+          - ErrorCode: 400
+            ResponsePagePath: '/index.html'
+            ResponseCode: 200
+            ErrorCachingMinTTL: 30
+        PriceClass: PriceClass_100
+        ViewerCertificate:
+          AcmCertificateArn: !Ref CertificateArn
+          MinimumProtocolVersion: TLSv1.2_2021
+          SslSupportMethod: 'sni-only'
+Outputs:
+  CFDomainName:
+    Value: !GetAtt [LomodoroCloudFrontDistro, DomainName]
+    Description: The domain of the CF distro.
+  CFDistroId:
+    Value: !Ref LomodoroCloudFrontDistro
+    Description: The id of the CF distro.

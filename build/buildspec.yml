@@ -6,29 +6,45 @@ env:
 phases:
   install:
     runtime-versions:
-      nodejs: 16
+      nodejs: 18
     commands:
       - echo Installing CodeBuild extras - https://github.com/thii/aws-codebuild-extras
       - curl -fsSL https://raw.githubusercontent.com/thii/aws-codebuild-extras/master/install >> extras.sh && . ./extras.sh
 
       # install dependencies
+      - echo installing dependecies
       - cd $CODEBUILD_SRC_DIR/
       - npm ci
 
       # Increase Nodejs Heap size
+      - echo increase heap size
       - export NODE_OPTIONS=--max_old_space_size=4096
 
   pre_build:
     commands:
+      # execute prebuild commands
       - echo pre build
+
       - cd $CODEBUILD_SRC_DIR/
+
+      # Get the package version
+      - PACKAGE_VERSION=$(cat package.json | jq -j '.version')
+      - VERSION=$PACKAGE_VERSION+$CODEBUILD_GIT_SHORT_COMMIT+$CODEBUILD_START_TIME
+      - echo "Package version is $PACKAGE_VERSION" && echo "Long version is $VERSION"
+
+      # Validate CFN Templates
+      - aws cloudformation validate-template --template-body file://$CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-cert-manager.template.yaml
+      - aws cloudformation validate-template --template-body file://$CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-cf-distro.template.yaml
+      - aws cloudformation validate-template --template-body file://$CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-oac.template.yaml
+      - aws cloudformation validate-template --template-body file://$CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-route53.template.yaml
+      - aws cloudformation validate-template --template-body file://$CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-s3-bucket.template.yaml
 
   build:
     commands:
+      - cd $CODEBUILD_SRC_DIR/
       - echo building
       # build app
-      - cd $CODEBUILD_SRC_DIR
-      - ng build --prod
+      - npm run build:prod
 
 artifacts:
   files:

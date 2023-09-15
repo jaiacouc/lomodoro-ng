@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: CF template for creating the ui OAC
+
+Resources:
+  LomodoroOriginAccessControl:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: The OAI allowing our CF distribution access to the web ui bucket
+
+Outputs:
+  LomodoroOACId:
+    Value: !Ref LomodoroOriginAccessControl
+    Description: The OAC Id
