@@ -60,8 +60,8 @@ phases:
       - aws s3 cp $CODEBUILD_SRC_DIR/dist/lomodoro-ng/ s3://$BUCKET_NAME/ --recursive
 
       # Deploy Certs
-      - LOMODORO_UI_CERT_PARAMS="DomainName=$CUSTOM_DOMAIN_NAME HostedZoneId=$HOSTED_ZONE_ID"
-      - eval $(echo aws cloudformation deploy --stack-name $CERT_STACK_NAME --template-file $CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-cert-manager.template.yaml --parameter-overrides $LOMODORO_UI_CERT_PARAMS --region $REGION --no-fail-on-empty-changeset)
+      #- LOMODORO_UI_CERT_PARAMS="DomainName=$CUSTOM_DOMAIN_NAME HostedZoneId=$HOSTED_ZONE_ID"
+      - eval $(echo aws cloudformation deploy --stack-name $CERT_STACK_NAME --template-file $CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-cert-manager.template.yaml --region $REGION --no-fail-on-empty-changeset)
       - aws cloudformation describe-stacks --stack-name $CERT_STACK_NAME --region $REGION --no-paginate --query 'Stacks[0].Outputs[*].{key:OutputKey,value:OutputValue}' --output json | jq from_entries? > /root/stack_output.json && cat /root/stack_output.json
       - CERT_ARN=$(cat /root/stack_output.json | jq -r '.LomodoroDomainCertificate')
 
