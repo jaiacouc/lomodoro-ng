@@ -25,7 +25,7 @@ phases:
       # Stack Names
       - OAC_STACK_NAME=lomodoro-oac
       - BUCKET_STACK_NAME=lomodoro-ui-bucket
-      - CERT_STACK_NAME=lomodoro-web-cert
+      - CERT_STACK_NAME=lomodoro-ssl-cert
       - CF_DISTRO_STACK_NAME=lomodoro-web-cf-distro
       - R53_DOMAIN_STACK_NAME=lomodoro-web-r53-domain-rec
       - echo "OAC Stack Name - ${OAC_STACK_NAME}" && echo "Bucket Stack Name - ${BUCKET_STACK_NAME}" && echo "Cert Stack Name - ${CERT_STACK_NAME}"
