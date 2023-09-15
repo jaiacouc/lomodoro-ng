@@ -29,7 +29,7 @@ phases:
 
       # Stack Names
       - OAC_STACK_NAME=lomodoro-oac
-      - BUCKET_STACK_NAME=lomodoro-web-ui-bucket
+      - BUCKET_STACK_NAME=lomodoro-ui-bucket
       - CERT_STACK_NAME=lomodoro-web-cert
       - CF_DISTRO_STACK_NAME=lomodoro-web-cf-distro
       - R53_DOMAIN_STACK_NAME=lomodoro-web-r53-domain-rec
