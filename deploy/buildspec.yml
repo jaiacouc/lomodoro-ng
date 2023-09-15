@@ -25,6 +25,7 @@ phases:
       # Domain details for lomodoro.com
       - HOSTED_ZONE_ID=$HOSTED_ZONE_ID
       - CUSTOM_DOMAIN_NAME="lomodoro.com"
+      - echo $HOSTED_ZONE_ID
 
       # Stack Names
       - OAC_STACK_NAME=lomodoro-oac
@@ -39,12 +40,14 @@ phases:
       - echo building
 
       # Deploy OAC
+      - echo Deploying OAI Stack
       - eval $(echo aws cloudformation deploy --stack-name $OAC_STACK_NAME --template-file $CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-oac.template.yaml --region $REGION --no-fail-on-empty-changeset)
       - aws cloudformation describe-stacks --stack-name $OAC_STACK_NAME --region $REGION --no-paginate --query 'Stacks[0].Outputs[*].{key:OutputKey,value:OutputValue}' --output json | jq from_entries? > /root/stack_output.json && cat /root/stack_output.json
       - ORIGIN_ACCESS_CONTROL_ID=$(cat /root/stack_output.json | jq -r '.LomodoroOACId')
 
       # Deploy Bucket
-      - LOMODORO_WEB_UI_BUCKET_PARAMS="WebUIOriginAccessIdentityId=$ORIGIN_ACCESS_IDENTITY_ID" && echo $LOMODORO_WEB_UI_BUCKET_PARAMS
+      - echo Deploying S3 bucket stack
+      - LOMODORO_WEB_UI_BUCKET_PARAMS="WebUIOriginAccessIdentityId=$ORIGIN_ACCESS_CONTROL_ID" && echo $LOMODORO_WEB_UI_BUCKET_PARAMS
       - eval $(echo aws cloudformation deploy --stack-name $BUCKET_STACK_NAME --template-file $CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-s3-bucket.template.yaml --parameter-overrides $LOMODORO_WEB_UI_BUCKET_PARAMS --region $REGION --no-fail-on-empty-changeset)
       - aws cloudformation describe-stacks --stack-name $BUCKET_STACK_NAME --region $REGION --no-paginate --query 'Stacks[0].Outputs[*].{key:OutputKey,value:OutputValue}' --output json | jq from_entries? > /root/stack_output.json && cat /root/stack_output.json
       - BUCKET_NAME=$(cat /root/stack_output.json | jq -r '.LomodoroBucketName')
