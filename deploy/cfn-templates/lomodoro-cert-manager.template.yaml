@@ -1,17 +1,35 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: AWS CloudFormation template to create a custom domain name and certificate
 
+Parameters:
+  DomainName:
+    Description: The top level domain (e.g. sync.nortxe.com)
+    Type: String
+  HostedZoneId:
+    Description: ID of the hosted zone you are creating the certificate in. Alphanumeric string.
+    Type: String
+  AutoCertApproval:
+    Description: Turn on automatic approval of certificates through DNS when set to true. Default true.
+    Type: String
+    Default: 'true'
+
+Conditions:
+  IsAutoCert: !Equals
+    - !Ref AutoCertApproval
+    - true
+
 Resources:
   Certificate:
-    Type: AWS::CertificateManager::Certificate
+    Type: 'AWS::CertificateManager::Certificate'
     Properties:
-      DomainName: www.johniacoucci.com
+      DomainName: !Ref DomainName
       DomainValidationOptions:
-        - DomainName: www.johniacoucci.com
-          HostedZoneId: Z02392231R5VC2Q6ST5ES
+        - DomainName: !Ref DomainName
+          HostedZoneId: !Ref HostedZoneId
       ValidationMethod: DNS
 
 Outputs:
   LomodoroDomainCertificate:
+    Condition: IsAutoCert
     Value: !Ref Certificate
-    Description: Web UI Custom Domain Certificate
+    Description: M2 Solutions Web UI Custom Domain Certificate
