@@ -9,6 +9,8 @@ Parameters:
     Type: String
   CFDistroID:
     Description: CD Distro ID
+    Type: String
+    Default: true
 
 Resources:
   CFAlias:
