@@ -5,19 +5,11 @@ Resources:
   Certificate:
     Type: AWS::CertificateManager::Certificate
     Properties:
-      # naked domain
-      DomainName: 'johniacoucci.com'
-      # add www to certificate
-      SubjectAlternativeNames:
-        - 'www.johniacoucci.com'
-      ValidationMethod: DNS
+      DomainName: www.johniacoucci.com
       DomainValidationOptions:
-        # DNS record for the naked domain
-        - DomainName: 'johniacoucci.com'
-          HostedZoneId: 'Z02392231R5VC2Q6ST5ES'
-        # DNS record for the www domain
-        - DomainName: 'www.johniacoucci.com'
-          HostedZoneId: 'Z02392231R5VC2Q6ST5ES'
+        - DomainName: www.johniacoucci.com
+          HostedZoneId: Z02392231R5VC2Q6ST5ES
+      ValidationMethod: DNS
 
 Outputs:
   LomodoroDomainCertificate:
