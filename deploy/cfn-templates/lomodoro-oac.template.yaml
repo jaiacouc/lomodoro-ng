@@ -15,5 +15,5 @@ Resources:
 
 Outputs:
   LomodoroOACId:
-    Value: !Ref LomodoroOriginAccessControl:
+    Value: !Ref LomodoroOriginAccessControl
     Description: The OAC Id
