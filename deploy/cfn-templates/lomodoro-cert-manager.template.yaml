@@ -20,7 +20,7 @@ Conditions:
 
 Resources:
   Certificate:
-    Type: 'AWS::CertificateManager::Certificate'
+    Type: AWS::CertificateManager::Certificate
     Properties:
       DomainName: !Ref DomainName
       DomainValidationOptions:
