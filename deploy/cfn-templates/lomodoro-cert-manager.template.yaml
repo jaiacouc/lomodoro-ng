@@ -8,15 +8,6 @@ Parameters:
   HostedZoneId:
     Description: ID of the hosted zone you are creating the certificate in. Alphanumeric string.
     Type: String
-  AutoCertApproval:
-    Description: Turn on automatic approval of certificates through DNS when set to true. Default true.
-    Type: String
-    Default: 'true'
-
-Conditions:
-  IsAutoCert: !Equals
-    - !Ref AutoCertApproval
-    - true
 
 Resources:
   Certificate:
@@ -30,6 +21,5 @@ Resources:
 
 Outputs:
   LomodoroDomainCertificate:
-    Condition: IsAutoCert
     Value: !Ref Certificate
     Description: Web UI Custom Domain Certificate
