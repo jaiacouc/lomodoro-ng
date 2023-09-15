@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: CF template for creating the ui OAC
+
+Resources:
+  LomodoroOriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Description: Default Orgin Access Control
+        Name: !Ref AWS::StackName
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+Outputs:
+  LomodoroOACId:
+    Value: !Ref LomodoroOriginAccessControl:
+    Description: The OAC Id

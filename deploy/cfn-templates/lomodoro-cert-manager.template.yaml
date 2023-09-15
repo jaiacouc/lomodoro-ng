@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: Certificate manager for domain cert
+
+Parameters:
+  DomainName:
+    Description: Domain name such as www.mysite.com
+    Type: String
+  HostedZoneId:
+    Description: Hosted zone id
+    Type: String
+  AutoCertApproval:
+    Description: Turn on automatic approval of certs through DNS when set to true.
+    Type: String
+    Default: 'true'
+
+Conditions:
+  IsAutoCert: !Equals
+    - !Ref AutoCertApproval
+    - true
+
+Resources:
+  CertificateManagerCert:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      # naked domain
+      DomainName: !Ref DomainName
+      ValidationMethod: DNS
+      DomainValidationOptions:
+        # DNS record for the naked domain
+        - DomainName: !Ref DomainName
+          HostedZoneId: !Ref HostedZoneId
+
+Outputs:
+  CertificateManagerCertificate:
+    Condition: IsAutoCert
+    Value: !Ref CertificateManagerCert
+    Description: Custom Domain Certificate

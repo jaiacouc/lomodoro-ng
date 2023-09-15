@@ -20,7 +20,60 @@ phases:
       # Set env variables to load aws creds file
       - AWS_SDK_LOAD_CONFIG=1
       - REGION=$AWS_REGION
+      - echo $REGION
 
+      # Domain details for lomodoro.com
+      - HOSTED_ZONE_ID=$HOSTED_ZONE_ID
+      - CUSTOM_DOMAIN_NAME="lomodoro.com"
+
+      # Stack Names
+      - OAC_STACK_NAME=lomodoro-oac
+      - BUCKET_STACK_NAME=lomodoro-web-ui-bucket
+      - CERT_STACK_NAME=lomodoro-web-cert
+      - CF_DISTRO_STACK_NAME=lomodoro-web-cf-distro
+      - R53_DOMAIN_STACK_NAME=lomodoro-web-r53-domain-rec
+      - echo "OAC Stack Name - ${OAC_STACK_NAME}" && echo "Bucket Stack Name - ${BUCKET_STACK_NAME}" && echo "Cert Stack Name - ${CERT_STACK_NAME}"
+      - echo "CF Distro Stack Name - ${CF_DISTRO_STACK_NAME}" && echo "Route53 Stack Name - ${R53_DOMAIN_STACK_NAME}"
   build:
     commands:
       - echo building
+
+      # Deploy OAC
+      - eval $(echo aws cloudformation deploy --stack-name $OAC_STACK_NAME --template-file $CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-oac.template.yaml --region $REGION --no-fail-on-empty-changeset)
+      - aws cloudformation describe-stacks --stack-name $OAC_STACK_NAME --region $REGION --no-paginate --query 'Stacks[0].Outputs[*].{key:OutputKey,value:OutputValue}' --output json | jq from_entries? > /root/stack_output.json && cat /root/stack_output.json
+      - ORIGIN_ACCESS_CONTROL_ID=$(cat /root/stack_output.json | jq -r '.LomodoroOACId')
+
+      # Deploy Bucket
+      - eval $(echo aws cloudformation deploy --stack-name $BUCKET_STACK_NAME --template-file $CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-s3-bucket.template.yaml --region $REGION --no-fail-on-empty-changeset)
+      - aws cloudformation describe-stacks --stack-name $BUCKET_STACK_NAME --region $REGION --no-paginate --query 'Stacks[0].Outputs[*].{key:OutputKey,value:OutputValue}' --output json | jq from_entries? > /root/stack_output.json && cat /root/stack_output.json
+      - BUCKET_NAME=$(cat /root/stack_output.json | jq -r '.LomodoroBucketName')
+      - BUCKET_URL=$(cat /root/stack_output.json | jq -r '.WebsiteURL')
+      # Cut bucket domain from bucket url
+      - BUCKET_DOMAIN=${BUCKET_URL##*/}
+
+      # Upload Lomodoro ui to s3
+      - aws s3 rm s3://$BUCKET_NAME --recursive
+      - aws s3 cp $CODEBUILD_SRC_DIR/dist/lomodoro-ng/ s3://$BUCKET_NAME/ --recursive
+
+      # Deploy Certs
+      - LOMODORO_UI_CERT_PARAMS="DomainName=$CUSTOM_DOMAIN_NAME HostedZoneId=$HOSTED_ZONE_ID"
+      - eval $(echo aws cloudformation deploy --stack-name $CERT_STACK_NAME --template-file $CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-cert-manager.template.yaml --parameter-overrides $LOMODORO_UI_CERT_PARAMS --region $REGION --no-fail-on-empty-changeset)
+      - aws cloudformation describe-stacks --stack-name $CERT_STACK_NAME --region $REGION --no-paginate --query 'Stacks[0].Outputs[*].{key:OutputKey,value:OutputValue}' --output json | jq from_entries? > /root/stack_output.json && cat /root/stack_output.json
+      - CERT_ARN=$(cat /root/stack_output.json | jq -r '.CertificateManagerCertificate')
+
+      # Deploy CF Distro
+      - CF_DISTRO_PARAMS="BucketDomain=$BUCKET_DOMAIN DomainName=$CUSTOM_DOMAIN_NAME CertificateArn=$CERT_ARN OriginAccessId=$ORIGIN_ACCESS_CONTROL_ID"
+      - eval $(echo aws cloudformation deploy --stack-name $CF_DISTRO_STACK_NAME --template-file $CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-cf-distro.template.yaml --parameter-overrides $CF_DISTRO_PARAMS --region $REGION --no-fail-on-empty-changeset)
+      - aws cloudformation describe-stacks --stack-name $CF_DISTRO_STACK_NAME --region $REGION --no-paginate --query 'Stacks[0].Outputs[*].{key:OutputKey,value:OutputValue}' --output json | jq from_entries? > /root/stack_output.json && cat /root/stack_output.json
+      - CF_DISTRO_DOMAIN_NAME=$(cat /root/stack_output.json | jq -r '.CFDomainName')
+      - CF_DISTRO_ID=$(cat /root/stack_output.json | jq -r '.CFDistroId')
+
+      # Deploy ROUTE53 record
+      - R53_ALIAS_PARAMS="DomainName=$CUSTOM_DOMAIN_NAME HostedZoneId=$HOSTED_ZONE_ID CloudFrontDistroDomainName=$CF_DISTRO_DOMAIN_NAME"
+      - eval $(echo aws cloudformation deploy --stack-name $R53_DOMAIN_STACK_NAME --template-file $CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-route53.template.yaml --parameter-overrides $R53_ALIAS_PARAMS --region $REGION --no-fail-on-empty-changeset)
+      - aws cloudformation describe-stacks --stack-name $R53_DOMAIN_STACK_NAME --region $REGION --no-paginate --query 'Stacks[0].Outputs[*].{key:OutputKey,value:OutputValue}' --output json | jq from_entries? > /root/stack_output.json && cat /root/stack_output.json
+
+  post_build:
+    commands:
+      # Invalidate the branch PR site CouldFront cache
+      - aws cloudfront create-invalidation --region $REGION --distribution-id $CF_DISTRO_ID --paths "/*"

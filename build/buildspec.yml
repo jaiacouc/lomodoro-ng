@@ -32,6 +32,13 @@ phases:
       - VERSION=$PACKAGE_VERSION+$CODEBUILD_GIT_SHORT_COMMIT+$CODEBUILD_START_TIME
       - echo "Package version is $PACKAGE_VERSION" && echo "Long version is $VERSION"
 
+      # Validate CFN Templates
+      - aws cloudformation validate-template --template-body file://$CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-cert-manager.template.yaml
+      - aws cloudformation validate-template --template-body file://$CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-cf-distro.template.yaml
+      - aws cloudformation validate-template --template-body file://$CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-oac.template.yaml
+      - aws cloudformation validate-template --template-body file://$CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-route53.template.yaml
+      - aws cloudformation validate-template --template-body file://$CODEBUILD_SRC_DIR/deploy/cfn-templates/lomodoro-s3-bucket.template.yaml
+
   build:
     commands:
       - cd $CODEBUILD_SRC_DIR/

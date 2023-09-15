@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Deploy a static domain s3 bucket
+Resources:
+  LomodoroContentBucket:
+  Type: AWS::S3::Bucket
+  Properties:
+    PublicAccessBlockConfiguration:
+      BlockPublicAcls: true
+      BlockPublicPolicy: true
+      IgnorePublicAcls: true
+      RestrictPublicBuckets: true
+    BucketName: 'lomodoro-ui-bucket'
+    WebsiteConfiguration:
+      ErrorDocument: '404.html'
+      IndexDocument: index.html
+
+  LomodoroContentBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref LomodoroContentBucket
+      PolicyDocument:
+        Statement:
+          - Action: s3:GetObject
+            Effect: 'Allow'
+            Resource: !Sub '${LomodoroContentBucket.Arn}/*'
+            Principle:
+              service: cloudfront.amazonaws.com
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Sub arn:aws:cloudfront::${AWS::AccountId}:distribution/${AssetsDistribution}
+
+Outputs:
+  LomodoroBucketName:
+    Value: !Ref LomodoroContentBucket
+    Description: The S3 bucket name
+  WebsiteURL:
+    Value: !GetAtt LomodoroContentBucket.WebsiteURL
+    Description: URL for website hosted on s3
