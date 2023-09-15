@@ -4,14 +4,10 @@ Description: CF template for creating the ui OAC
 
 Resources:
   LomodoroOriginAccessControl:
-    Type: AWS::CloudFront::OriginAccessControl
+    Type: AWS::CloudFront::OriginAccessIdentity
     Properties:
-      OriginAccessControlConfig:
-        Description: Default Orgin Access Control
-        Name: !Ref AWS::StackName
-        OriginAccessControlOriginType: s3
-        SigningBehavior: always
-        SigningProtocol: sigv4
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: The OAI allowing our CF distribution access to the web ui bucket
 
 Outputs:
   LomodoroOACId:

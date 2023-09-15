@@ -1,5 +1,9 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Deploy a static domain s3 bucket
+Parameters:
+  WebUIOriginAccessIdentityId:
+    Description: The ID of the OriginaAccessIdentity
+    Type: String
 Resources:
   LomodoroContentBucket:
     Type: AWS::S3::Bucket
@@ -20,19 +24,23 @@ Resources:
       Bucket: !Ref LomodoroContentBucket
       PolicyDocument:
         Statement:
-          - Action: s3:GetObject
-            Effect: 'Allow'
-            Resource: !Sub '${LomodoroContentBucket.Arn}/*'
-            Principle:
-              service: cloudfront.amazonaws.com
-            Condition:
-              StringEquals:
-                AWS:SourceArn: !Sub arn:aws:cloudfront::${AWS::AccountId}:distribution/${AssetsDistribution}
+          - Effect: 'Allow'
+            Principal:
+              AWS:
+                - !Sub arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${WebUIOriginAccessIdentityId}
+            Action:
+              - 's3:GetObject'
+            Resource:
+              Fn::Join:
+                - ''
+                - - 'arn:aws:s3:::'
+                  - Ref: 'LomodoroContentBucket'
+                  - '/*'
 
 Outputs:
   LomodoroBucketName:
     Value: !Ref LomodoroContentBucket
     Description: The S3 bucket name
   WebsiteURL:
-    Value: !GetAtt LomodoroContentBucket.WebsiteURL
-    Description: URL for website hosted on s3
+    Value: !Join ['', ['http://', !GetAtt [LomodoroContentBucket, DomainName]]]
+    Description: Name of S3 bucket that hosts the lomodoro content

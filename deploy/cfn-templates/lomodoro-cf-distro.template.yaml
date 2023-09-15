@@ -25,8 +25,7 @@ Resources:
           - DomainName: !Ref BucketDomain
             Id: !Ref BucketDomain
             S3OriginConfig:
-              OriginAccessIdentity: ''
-            OriginAccessControlId: !Ref OriginAccessId
+              OriginAccessIdentity: !Sub origin-access-identity/cloudfront/${OriginAccessId}
         Enabled: true
         Comment: Cloudfront distro for lomodoro web ui
         DefaultRootObject: index.html
