@@ -11,9 +11,18 @@
         <input matInput [id]="'break-time'" type="number" formControlName="breakTimeControl" />
       </mat-form-field>
     </div>
-    <button [id]="'save-btn'" mat-flat-button color="primary" class="save-btn" type="submit" [mat-dialog-close]="true">
-      Save
-    </button>
-    <button [id]="'cancel-button'" mat-button mat-dialog-close color="primary" type="button">Cancel</button>
+    <div class="btn-container">
+      <button
+        [id]="'save-btn'"
+        mat-flat-button
+        color="primary"
+        class="save-btn"
+        type="submit"
+        [mat-dialog-close]="true"
+      >
+        Save
+      </button>
+      <button [id]="'cancel-button'" mat-button mat-dialog-close color="primary" type="button">Cancel</button>
+    </div>
   </form>
 </div>
