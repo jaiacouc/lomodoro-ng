@@ -17,7 +17,7 @@ export class AppNavComponent {
     },
     {
       name: 'About',
-      link: '',
+      link: 'about',
       selected: false,
     },
     {

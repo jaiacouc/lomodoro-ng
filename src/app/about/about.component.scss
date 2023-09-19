@@ -1,0 +1,22 @@
+.about-container {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 80rem;
+}
+
+.title {
+  text-align: left;
+}
+
+.text {
+  width: 40rem;
+  line-height: 1.5;
+  font-size: large;
+}
+
+.text-container {
+  margin-top: 0.5rem;
+}

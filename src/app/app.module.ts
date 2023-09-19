@@ -7,10 +7,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { AppNavModule } from './app-nav/app-nav.module';
 import { PomodoroModule } from './pomodoro/pomodoro.module';
+import { AboutModule } from './about/about.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, SharedModule, AppNavModule, PomodoroModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    SharedModule,
+    AppNavModule,
+    PomodoroModule,
+    AboutModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
