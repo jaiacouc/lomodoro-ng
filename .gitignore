@@ -2,12 +2,14 @@
 
 # Compiled output
 /packages/web/dist
+/packages/services/lofi/dist
 /tmp
 /out-tsc
 /bazel-out
 
 # Node
 /packages/web/node_modules
+/packages/services/lofi/node_modules
 npm-debug.log
 yarn-error.log
 
