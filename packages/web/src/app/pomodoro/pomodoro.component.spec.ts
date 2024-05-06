@@ -8,8 +8,8 @@ describe('PomodoroComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PomodoroComponent]
-    });
+    imports: [PomodoroComponent]
+});
     fixture = TestBed.createComponent(PomodoroComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -8,8 +8,8 @@ describe('SettingsFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SettingsFormComponent]
-    });
+    imports: [SettingsFormComponent]
+});
     fixture = TestBed.createComponent(SettingsFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -8,8 +8,8 @@ describe('TodoListItemComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TodoListItemComponent]
-    });
+    imports: [TodoListItemComponent]
+});
     fixture = TestBed.createComponent(TodoListItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

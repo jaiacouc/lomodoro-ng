@@ -1,11 +1,26 @@
 import { Component, EventEmitter, Inject } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogClose } from '@angular/material/dialog';
+import { MatButton } from '@angular/material/button';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
 
 @Component({
-  selector: 'settings-form',
-  templateUrl: './settings-form.component.html',
-  styleUrls: ['./settings-form.component.scss'],
+    selector: 'settings-form',
+    templateUrl: './settings-form.component.html',
+    styleUrls: ['./settings-form.component.scss'],
+    standalone: true,
+    imports: [
+        MatDialogTitle,
+        MatDialogContent,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatButton,
+        MatDialogClose,
+    ],
 })
 export class SettingsFormComponent {
   public formSubmitted: EventEmitter<any> = new EventEmitter<any>();

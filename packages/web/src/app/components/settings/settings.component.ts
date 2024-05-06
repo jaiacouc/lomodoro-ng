@@ -5,11 +5,15 @@ import { Subscription } from 'rxjs';
 import { ThemeService } from 'src/app/shared/services/theme-service/theme-service.service';
 import { Themes } from 'src/app/shared/models/themes';
 import { TimerService } from 'src/app/shared/services/timer-service/timer.service';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton } from '@angular/material/button';
 
 @Component({
-  selector: 'settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
+    selector: 'settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss'],
+    standalone: true,
+    imports: [MatIconButton, MatIcon],
 })
 export class SettingsComponent implements OnDestroy {
   private _workTime: number = 45;

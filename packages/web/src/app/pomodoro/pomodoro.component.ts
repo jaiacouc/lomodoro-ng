@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
+import { TodoListComponent } from '../components/todo-list/todo-list.component';
+import { TimerComponent } from '../components/timer/timer.component';
 
 @Component({
-  selector: 'app-pomodoro',
-  templateUrl: './pomodoro.component.html',
-  styleUrls: ['./pomodoro.component.scss']
+    selector: 'app-pomodoro',
+    templateUrl: './pomodoro.component.html',
+    styleUrls: ['./pomodoro.component.scss'],
+    standalone: true,
+    imports: [TimerComponent, TodoListComponent]
 })
 export class PomodoroComponent {
 

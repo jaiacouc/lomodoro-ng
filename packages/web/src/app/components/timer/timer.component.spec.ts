@@ -8,8 +8,8 @@ describe('TimerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TimerComponent]
-    });
+    imports: [TimerComponent]
+});
     fixture = TestBed.createComponent(TimerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
