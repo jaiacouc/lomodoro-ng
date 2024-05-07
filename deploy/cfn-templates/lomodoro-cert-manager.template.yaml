@@ -3,7 +3,7 @@ Description: AWS CloudFormation template to create a custom domain name and cert
 
 Parameters:
   DomainName:
-    Description: The top level domain (e.g. sync.nortxe.com)
+    Description: The top level domain
     Type: String
   HostedZoneId:
     Description: ID of the hosted zone you are creating the certificate in. Alphanumeric string.
