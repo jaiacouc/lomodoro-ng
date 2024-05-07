@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, WritableSignal, signal } from '@angular/core';
 import { MenuOption } from '../shared/models/menu-option-model';
 import { Themes } from '../shared/models/themes';
 import { ThemeService } from '../shared/services/theme-service/theme-service.service';
@@ -11,24 +11,24 @@ import { MatSidenavContainer, MatSidenav, MatSidenavContent } from '@angular/mat
 import { NgClass, NgFor } from '@angular/common';
 
 @Component({
-    selector: 'app-nav',
-    templateUrl: './app-nav.component.html',
-    styleUrls: ['./app-nav.component.scss'],
-    standalone: true,
-    imports: [
-        NgClass,
-        MatSidenavContainer,
-        MatSidenav,
-        MatToolbar,
-        MatIconButton,
-        MatIcon,
-        MatNavList,
-        NgFor,
-        MatListItem,
-        RouterLink,
-        MatSidenavContent,
-        RouterOutlet,
-    ],
+  selector: 'app-nav',
+  templateUrl: './app-nav.component.html',
+  styleUrls: ['./app-nav.component.scss'],
+  standalone: true,
+  imports: [
+    NgClass,
+    MatSidenavContainer,
+    MatSidenav,
+    MatToolbar,
+    MatIconButton,
+    MatIcon,
+    MatNavList,
+    NgFor,
+    MatListItem,
+    RouterLink,
+    MatSidenavContent,
+    RouterOutlet,
+  ],
 })
 export class AppNavComponent {
   public menuOptions: MenuOption[] = [
@@ -48,27 +48,22 @@ export class AppNavComponent {
       selected: false,
     },
   ];
-  public menuOpened: boolean = false;
-  public theme: Themes = Themes.Light;
+  public menuOpened: WritableSignal<boolean> = signal(false);
+  public theme: WritableSignal<Themes> = signal(Themes.Light);
 
   constructor(private _themeService: ThemeService) {}
 
   public openMenu(): void {
-    this.menuOpened = !this.menuOpened;
+    this.menuOpened.update((value) => !value);
   }
 
   public closeBackDrop(): void {
-    this.menuOpened = false;
+    this.menuOpened.set(false);
   }
 
   public changeTheme(): void {
-    if (this.theme === Themes.Light) {
-      this.theme = Themes.Dark;
-      this._themeService.updateTheme(Themes.Dark);
-    } else {
-      this.theme = Themes.Light;
-      this._themeService.updateTheme(Themes.Light);
-    }
+    this.theme.update((theme) => (theme === Themes.Light ? Themes.Dark : Themes.Light));
+    this._themeService.updateTheme(this.theme());
   }
 
   public menuItemSelected(menuItem: MenuOption): void {

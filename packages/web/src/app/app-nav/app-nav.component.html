@@ -1,6 +1,6 @@
-<div [ngClass]="{ 'dark-theme': theme === 'dark-theme' }">
+<div [ngClass]="{ 'dark-theme': theme() === 'dark-theme' }">
   <mat-sidenav-container fullscreen (backdropClick)="closeBackDrop()" [hasBackdrop]="true">
-    <mat-sidenav class="side-nav-menu" mode="side" [opened]="menuOpened">
+    <mat-sidenav class="side-nav-menu" mode="side" [opened]="menuOpened()">
       <mat-toolbar class="toolbar" [color]="'primary'">
         <button class="close-button" mat-icon-button (click)="closeBackDrop()">
           <mat-icon>close</mat-icon>
@@ -26,7 +26,7 @@
         </button>
         <p class="title">Lomodoro</p>
         <button mat-icon-button class="theme-button" (click)="changeTheme()">
-          <mat-icon>{{ theme === 'light-theme' ? 'light_mode' : 'dark_mode' }}</mat-icon>
+          <mat-icon>{{ theme() === 'light-theme' ? 'light_mode' : 'dark_mode' }}</mat-icon>
         </button>
       </mat-toolbar>
       <router-outlet></router-outlet>
