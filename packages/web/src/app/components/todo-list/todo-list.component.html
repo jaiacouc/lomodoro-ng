@@ -8,7 +8,7 @@
       [cdkDropListData]="todoList"
       (cdkDropListDropped)="dropHandler($event)"
     >
-      @for (listItem of todoList; track $index) {
+      @for (listItem of todoList(); track $index) {
       <todo-list-item cdkDrag class="list-item" [name]="listItem"></todo-list-item>
       }
     </mat-list>
@@ -22,7 +22,7 @@
       [cdkDropListData]="inProgressList"
       (cdkDropListDropped)="dropHandler($event)"
     >
-      @for (listItem of inProgressList; track $index) {
+      @for (listItem of inProgressList(); track $index) {
       <todo-list-item cdkDrag class="list-item" [name]="listItem"></todo-list-item>
       }
     </mat-list>
@@ -36,7 +36,7 @@
       [cdkDropListData]="doneList"
       (cdkDropListDropped)="dropHandler($event)"
     >
-      @for (listItem of doneList; track $index) {
+      @for (listItem of doneList(); track $index) {
       <todo-list-item cdkDrag class="list-item" [name]="listItem"></todo-list-item>
       }
     </mat-list>
