@@ -1,0 +1,44 @@
+<div class="list-group-container" cdkDropListGroup>
+  <div class="list-group">
+    <h3 class="title">Todo</h3>
+    <hr />
+    <mat-list
+      class="list todo-list"
+      cdkDropList
+      [cdkDropListData]="todoList"
+      (cdkDropListDropped)="dropHandler($event)"
+    >
+      @for (listItem of todoList(); track $index) {
+      <todo-list-item cdkDrag class="list-item" [name]="listItem"></todo-list-item>
+      }
+    </mat-list>
+  </div>
+  <div class="list-group">
+    <h3 class="title">In Progress</h3>
+    <hr />
+    <mat-list
+      class="list in-progress-list"
+      cdkDropList
+      [cdkDropListData]="inProgressList"
+      (cdkDropListDropped)="dropHandler($event)"
+    >
+      @for (listItem of inProgressList(); track $index) {
+      <todo-list-item cdkDrag class="list-item" [name]="listItem"></todo-list-item>
+      }
+    </mat-list>
+  </div>
+  <div class="list-group">
+    <h3 class="title">Done</h3>
+    <hr />
+    <mat-list
+      class="list done-list"
+      cdkDropList
+      [cdkDropListData]="doneList"
+      (cdkDropListDropped)="dropHandler($event)"
+    >
+      @for (listItem of doneList(); track $index) {
+      <todo-list-item cdkDrag class="list-item" [name]="listItem"></todo-list-item>
+      }
+    </mat-list>
+  </div>
+</div>

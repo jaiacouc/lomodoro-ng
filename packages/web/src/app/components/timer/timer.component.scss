@@ -1,0 +1,43 @@
+.timer-card {
+  min-width: 10rem;
+  width: 30rem;
+}
+
+.timer-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.timer-content-header {
+  display: flex;
+}
+
+.timer-text {
+  font-size: 80px;
+  font-weight: 600;
+  margin-top: 2rem;
+}
+
+.start-button {
+  margin-right: 0.5rem;
+}
+
+.timer-button {
+  width: 10rem;
+  min-width: 4rem;
+  height: 2rem;
+}
+
+.button-container {
+  margin-top: -2rem;
+}
+
+.settings {
+  margin-left: auto;
+}
+
+.tab-group {
+  margin-left: 8rem;
+}
