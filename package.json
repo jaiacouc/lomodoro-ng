@@ -1,0 +1,9 @@
+{
+  "name": "Lomodoro",
+  "version": "0.0.0",
+  "scripts": {
+    "build:web": "cd packages/web && npm run build",
+    "build:web:prod": "cd packages/web && npm run build:prod",
+    "start:web": "cd packages/web && npm run start"
+  }
+}

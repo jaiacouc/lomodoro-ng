@@ -14,14 +14,14 @@ phases:
       # install web dependencies
       - echo installing web dependecies
       - cd $CODEBUILD_SRC_DIR/packages/web
-      - npm ci
+      - npm ci --unsafe-perm
 
       - cd $CODEBUILD_SRC_DIR/
 
       # install lofi dependencies
       - echo installing lofi dependecies
       - cd $CODEBUILD_SRC_DIR/packages/services/lofi
-      - npm ci
+      - npm ci --unsafe-perm
 
       - cd $CODEBUILD_SRC_DIR/
 
@@ -51,9 +51,9 @@ phases:
   build:
     commands:
       # build web package
-      - cd $CODEBUILD_SRC_DIR/packages/web
+      - cd $CODEBUILD_SRC_DIR
       - echo building web package
-      - npm run build:prod
+      - npm run build:web:prod
 
       - cd $CODEBUILD_SRC_DIR/
 
