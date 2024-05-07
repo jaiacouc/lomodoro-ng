@@ -7,8 +7,8 @@
         </button>
       </mat-toolbar>
       <mat-nav-list class="options-list">
+        @for (option of menuOptions; track $index) {
         <a
-          *ngFor="let option of menuOptions"
           class="menu-option"
           [routerLink]="option.link"
           [activated]="option.selected"
@@ -16,6 +16,7 @@
           (click)="menuItemSelected(option)"
           >{{ option.name }}</a
         >
+        }
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>

@@ -14,9 +14,9 @@
       <button class="timer-button start-button" mat-flat-button [color]="'primary'" (click)="startTimer()">
         Start
       </button>
+      @if (!stopped) {
       <button
         class="timer-button"
-        *ngIf="!stopped"
         [disabled]="timeLeft === workTime + ':00' || timeLeft === breakTime + ':00'"
         mat-flat-button
         [color]="'primary'"
@@ -24,9 +24,9 @@
       >
         Stop
       </button>
-      <button class="timer-button" *ngIf="stopped" mat-flat-button [color]="'primary'" (click)="changeTimer()">
-        Next
-      </button>
+      } @else {
+      <button class="timer-button" mat-flat-button [color]="'primary'" (click)="changeTimer()">Next</button>
+      }
     </div>
   </mat-card-content>
 </mat-card>

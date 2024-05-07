@@ -8,7 +8,9 @@
       [cdkDropListData]="todoList"
       (cdkDropListDropped)="dropHandler($event)"
     >
-      <todo-list-item cdkDrag class="list-item" *ngFor="let listItem of todoList" [name]="listItem"></todo-list-item>
+      @for (listItem of todoList; track $index) {
+      <todo-list-item cdkDrag class="list-item" [name]="listItem"></todo-list-item>
+      }
     </mat-list>
   </div>
   <div class="list-group">
@@ -20,12 +22,9 @@
       [cdkDropListData]="inProgressList"
       (cdkDropListDropped)="dropHandler($event)"
     >
-      <todo-list-item
-        cdkDrag
-        class="list-item"
-        *ngFor="let listItem of inProgressList"
-        [name]="listItem"
-      ></todo-list-item>
+      @for (listItem of inProgressList; track $index) {
+      <todo-list-item cdkDrag class="list-item" [name]="listItem"></todo-list-item>
+      }
     </mat-list>
   </div>
   <div class="list-group">
@@ -37,7 +36,9 @@
       [cdkDropListData]="doneList"
       (cdkDropListDropped)="dropHandler($event)"
     >
-      <todo-list-item cdkDrag class="list-item" *ngFor="let listItem of doneList" [name]="listItem"></todo-list-item>
+      @for (listItem of doneList; track $index) {
+      <todo-list-item cdkDrag class="list-item" [name]="listItem"></todo-list-item>
+      }
     </mat-list>
   </div>
 </div>
