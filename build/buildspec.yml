@@ -11,19 +11,16 @@ phases:
       - echo Installing CodeBuild extras - https://github.com/thii/aws-codebuild-extras
       - curl -fsSL https://raw.githubusercontent.com/thii/aws-codebuild-extras/master/install >> extras.sh && . ./extras.sh
 
-      - WEBPATH=$CODEBUILD_SRC_DIR/packages/web
-      - LOFIPATH=$CODEBUILD_SRC_DIR/packages/services/lofi
-
       # install web dependencies
       - echo installing web dependecies
-      - cd WEBPATH
+      - cd $CODEBUILD_SRC_DIR/packages/web
       - npm ci
 
       - cd $CODEBUILD_SRC_DIR/
 
       # install lofi dependencies
       - echo installing lofi dependecies
-      - cd LOFIPATH
+      - cd $CODEBUILD_SRC_DIR/packages/services/lofi
       - npm ci
 
       - cd $CODEBUILD_SRC_DIR/
@@ -54,14 +51,14 @@ phases:
   build:
     commands:
       # build web package
-      - cd WEBPATH
+      - cd $CODEBUILD_SRC_DIR/packages/web
       - echo building web package
       - npm run build:prod
 
       - cd $CODEBUILD_SRC_DIR/
 
       # build lofi package
-      - cd LOFIPATH
+      - cd $CODEBUILD_SRC_DIR/packages/services/lofi
       - echo build lofi package
       - npm run build
 

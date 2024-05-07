@@ -12,14 +12,12 @@ phases:
       - pip install -q yq==2.11.1
 
       # Install Web Packages
-      - WEBPATH=$CODEBUILD_SRC_DIR/packages/web
-      - cd WEBPATH
+      - cd $CODEBUILD_SRC_DIR/packages/web
       - echo installing web package dependencies
       - npm ci
 
       # Install Lofi Packages
-      - LOFIPATH=$CODEBUILD_SRC_DIR/packages/services/lofi
-      - cd LOFIPATH
+      - cd $CODEBUILD_SRC_DIR/packages/services/lofi
       - echo installing lofi package dependencies
       - npm ci
 
@@ -58,7 +56,7 @@ phases:
 
       # Upload Lomodoro ui to s3
       - aws s3 rm s3://$BUCKET_NAME --recursive
-      - aws s3 cp WEBPATH/ s3://$BUCKET_NAME/ --recursive
+      - aws s3 cp $CODEBUILD_SRC_DIR/packages/web/ s3://$BUCKET_NAME/ --recursive
 
       # Deploy Certs
       - LOMODORO_UI_CERT_PARAMS="DomainName=$CUSTOM_DOMAIN_NAME HostedZoneId=$HOSTED_ZONE_ID"
