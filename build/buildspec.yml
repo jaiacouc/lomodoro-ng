@@ -11,10 +11,22 @@ phases:
       - echo Installing CodeBuild extras - https://github.com/thii/aws-codebuild-extras
       - curl -fsSL https://raw.githubusercontent.com/thii/aws-codebuild-extras/master/install >> extras.sh && . ./extras.sh
 
-      # install dependencies
-      - echo installing dependecies
-      - cd $CODEBUILD_SRC_DIR/
+      - WEBPATH=$CODEBUILD_SRC_DIR/packages/web
+      - LOFIPATH=$CODEBUILD_SRC_DIR/packages/services/lofi
+
+      # install web dependencies
+      - echo installing web dependecies
+      - cd WEBPATH
       - npm ci
+
+      - cd $CODEBUILD_SRC_DIR/
+
+      # install lofi dependencies
+      - echo installing lofi dependecies
+      - cd LOFIPATH
+      - npm ci
+
+      - cd $CODEBUILD_SRC_DIR/
 
       # Increase Nodejs Heap size
       - echo increase heap size
@@ -41,10 +53,17 @@ phases:
 
   build:
     commands:
-      - cd $CODEBUILD_SRC_DIR/
-      - echo building
-      # build app
+      # build web package
+      - cd WEBPATH
+      - echo building web package
       - npm run build:prod
+
+      - cd $CODEBUILD_SRC_DIR/
+
+      # build lofi package
+      - cd LOFIPATH
+      - echo build lofi package
+      - npm run build
 
 artifacts:
   files:
