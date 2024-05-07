@@ -11,13 +11,19 @@
   <mat-card-content class="timer-content">
     <p class="timer-text">{{ timeLeft() }}</p>
     <div class="button-container">
-      <button class="timer-button start-button" mat-flat-button [color]="'primary'" (click)="startTimer()">
+      <button
+        [disabled]="!stopped()"
+        class="timer-button start-button"
+        mat-flat-button
+        [color]="'primary'"
+        (click)="startTimer()"
+      >
         Start
       </button>
       @if (!stopped()) {
       <button
         class="timer-button"
-        [disabled]="timeLeft() === workTime() + ':00' || timeLeft() === breakTime() + ':00'"
+        [disabled]="disableStopButton()"
         mat-flat-button
         [color]="'primary'"
         (click)="stopTimer()"
