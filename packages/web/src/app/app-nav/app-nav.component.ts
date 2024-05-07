@@ -42,11 +42,6 @@ export class AppNavComponent {
       link: 'about',
       selected: false,
     },
-    {
-      name: 'Option 3',
-      link: '',
-      selected: false,
-    },
   ];
   public menuOpened: WritableSignal<boolean> = signal(false);
   public theme: WritableSignal<Themes> = signal(Themes.Light);
