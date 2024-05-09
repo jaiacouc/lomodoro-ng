@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Bucket for storing music files
+
+Parameters:
+  BucketName: { Type: String, Default: 'lofi-music-s3-bucket' }
+
+Resources:
+  LofiBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Ref BucketName
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+
+Outputs:
+  MainBucketName:
+    Description: Name of the main bucket
+    Value: !Ref LofiBucket
