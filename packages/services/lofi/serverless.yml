@@ -1,0 +1,21 @@
+service: lofi-api
+
+plugins:
+  - '@aws-sdk/client-dynamodb'
+  - '@aws-sdk/client-s3'
+  - '@aws-sdk/lib-dynamodb'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          method: GET
+          path: lofi/song
+      - http:
+          method: POST
+          path: 'lofi/song'
