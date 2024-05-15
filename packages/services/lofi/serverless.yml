@@ -1,13 +1,45 @@
 service: lofi-api
 
 plugins:
-  - '@aws-sdk/client-dynamodb'
-  - '@aws-sdk/client-s3'
-  - '@aws-sdk/lib-dynamodb'
+  - serverless-webpack
+
+custom:
+  stage: ${opt:stage, 'local'}
+  region: ${opt:region, 'us-east-1'}
+
+webpack:
+  excludeFiles: 'src/**/*spec.ts'
+  includeModules:
+    forceExclude:
+      - '@aws-sdk/client-dynamodb'
+      - '@aws-sdk/client-s3'
+      - '@aws-sdk/lib-dynamodb'
+  keepOutputDirectory: true
+  webpackConfig: 'webpack.config.ts'
 
 provider:
   name: aws
   runtime: nodejs18.x
+  region: ${self:custom.region}
+  stackName: ${self:provider.stage}-${self:service}
+  stage: ${self:custom.stage}
+  timeout: 600
+  environment:
+    DDB_TABLE_NAME: ${self.custom.DynamoDBTable}
+    S3_BUCKET_NAME: ${self.custom.S3Bucket}
+
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - 'dynamodb:GetItem'
+            - 'dynamodb:PutItem'
+          Resource: '*'
+        - Effect: 'Allow'
+          Action:
+            - 's3:GetObject'
+          Resource: '*'
 
 functions:
   main:

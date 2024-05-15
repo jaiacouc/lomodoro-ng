@@ -5,8 +5,8 @@ export class AppFactory {
   constructor() {
     const processEnv: NodeJS.ProcessEnv = process.env;
 
-    this._s3BucketName = processEnv.S3BUCKETNAME;
-    this._ddbTableName = processEnv.DDBTABLENAME;
+    this._s3BucketName = processEnv.S3_BUCKET_NAME;
+    this._ddbTableName = processEnv.DDB_TABLE_NAME;
   }
 
   public getS3BucketName(): string {
