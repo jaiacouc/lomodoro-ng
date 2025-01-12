@@ -5,8 +5,7 @@ import { MatListItem } from '@angular/material/list';
     selector: 'todo-list-item',
     templateUrl: './todo-list-item.component.html',
     styleUrls: ['./todo-list-item.component.scss'],
-    standalone: true,
-    imports: [MatListItem],
+    imports: [MatListItem]
 })
 export class TodoListItemComponent {
   @Input() name: string = '';

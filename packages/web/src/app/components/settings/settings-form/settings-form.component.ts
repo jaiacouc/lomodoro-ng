@@ -9,7 +9,6 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
     selector: 'settings-form',
     templateUrl: './settings-form.component.html',
     styleUrls: ['./settings-form.component.scss'],
-    standalone: true,
     imports: [
         MatDialogTitle,
         MatDialogContent,
@@ -20,7 +19,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
         MatInput,
         MatButton,
         MatDialogClose,
-    ],
+    ]
 })
 export class SettingsFormComponent {
   public formSubmitted: EventEmitter<any> = new EventEmitter<any>();

@@ -11,24 +11,23 @@ import { MatSidenavContainer, MatSidenav, MatSidenavContent } from '@angular/mat
 import { NgClass, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-nav',
-  templateUrl: './app-nav.component.html',
-  styleUrls: ['./app-nav.component.scss'],
-  standalone: true,
-  imports: [
-    NgClass,
-    MatSidenavContainer,
-    MatSidenav,
-    MatToolbar,
-    MatIconButton,
-    MatIcon,
-    MatNavList,
-    NgFor,
-    MatListItem,
-    RouterLink,
-    MatSidenavContent,
-    RouterOutlet,
-  ],
+    selector: 'app-nav',
+    templateUrl: './app-nav.component.html',
+    styleUrls: ['./app-nav.component.scss'],
+    imports: [
+        NgClass,
+        MatSidenavContainer,
+        MatSidenav,
+        MatToolbar,
+        MatIconButton,
+        MatIcon,
+        MatNavList,
+        NgFor,
+        MatListItem,
+        RouterLink,
+        MatSidenavContent,
+        RouterOutlet,
+    ]
 })
 export class AppNavComponent {
   public menuOptions: MenuOption[] = [

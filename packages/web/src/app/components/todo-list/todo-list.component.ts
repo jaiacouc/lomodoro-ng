@@ -5,11 +5,10 @@ import { NgFor } from '@angular/common';
 import { MatList } from '@angular/material/list';
 
 @Component({
-  selector: 'app-todo-list',
-  templateUrl: './todo-list.component.html',
-  styleUrls: ['./todo-list.component.scss'],
-  standalone: true,
-  imports: [CdkDropListGroup, MatList, CdkDropList, NgFor, TodoListItemComponent, CdkDrag],
+    selector: 'app-todo-list',
+    templateUrl: './todo-list.component.html',
+    styleUrls: ['./todo-list.component.scss'],
+    imports: [CdkDropListGroup, MatList, CdkDropList, NgFor, TodoListItemComponent, CdkDrag]
 })
 export class TodoListComponent {
   public todoList: WritableSignal<string[]> = signal(['mow the yard', 'take out the trash']);

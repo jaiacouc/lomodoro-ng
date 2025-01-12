@@ -10,11 +10,10 @@ import { MatTabGroup, MatTab } from '@angular/material/tabs';
 import { MatCard, MatCardHeader, MatCardContent } from '@angular/material/card';
 
 @Component({
-  selector: 'app-timer',
-  templateUrl: './timer.component.html',
-  styleUrls: ['./timer.component.scss'],
-  standalone: true,
-  imports: [MatCard, MatCardHeader, MatTabGroup, MatTab, SettingsComponent, MatCardContent, MatButton, NgIf],
+    selector: 'app-timer',
+    templateUrl: './timer.component.html',
+    styleUrls: ['./timer.component.scss'],
+    imports: [MatCard, MatCardHeader, MatTabGroup, MatTab, SettingsComponent, MatCardContent, MatButton, NgIf]
 })
 export class TimerComponent implements OnDestroy {
   private readonly MILLITOMIN: number = 60000;
