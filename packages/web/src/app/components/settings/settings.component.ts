@@ -12,8 +12,7 @@ import { MatIconButton } from '@angular/material/button';
     selector: 'settings',
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.scss'],
-    standalone: true,
-    imports: [MatIconButton, MatIcon],
+    imports: [MatIconButton, MatIcon]
 })
 export class SettingsComponent implements OnDestroy {
   private _workTime: number = 45;

@@ -8,13 +8,13 @@ import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatSidenavContainer, MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
+import { MusicBarComponent } from '../components/music-bar/music-bar.component';
 
 @Component({
   selector: 'app-nav',
   templateUrl: './app-nav.component.html',
   styleUrls: ['./app-nav.component.scss'],
-  standalone: true,
   imports: [
     NgClass,
     MatSidenavContainer,
@@ -23,18 +23,18 @@ import { NgClass, NgFor } from '@angular/common';
     MatIconButton,
     MatIcon,
     MatNavList,
-    NgFor,
     MatListItem,
     RouterLink,
     MatSidenavContent,
     RouterOutlet,
+    MusicBarComponent,
   ],
 })
 export class AppNavComponent {
   public menuOptions: MenuOption[] = [
     {
       name: 'Pomodoro Timer',
-      link: 'pomodoro',
+      link: '',
       selected: true,
     },
     {

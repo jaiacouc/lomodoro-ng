@@ -1,1 +1,13 @@
-<p>music-bar works!</p>
+<div class="music-bar-container" [ngClass]="{ 'dark-theme': theme() === 'dark-theme' }">
+  <div class="music-controls">
+    <button mat-icon-button>
+      <mat-icon class="button-color">skip_previous</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon class="button-color">play_arrow</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon class="button-color">skip_next</mat-icon>
+    </button>
+  </div>
+</div>

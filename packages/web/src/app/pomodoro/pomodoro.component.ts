@@ -6,7 +6,6 @@ import { TimerComponent } from '../components/timer/timer.component';
     selector: 'app-pomodoro',
     templateUrl: './pomodoro.component.html',
     styleUrls: ['./pomodoro.component.scss'],
-    standalone: true,
     imports: [TimerComponent, TodoListComponent]
 })
 export class PomodoroComponent {

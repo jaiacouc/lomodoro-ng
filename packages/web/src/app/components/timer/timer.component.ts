@@ -3,7 +3,6 @@ import { DateTime, Duration } from 'luxon';
 import { Subscription } from 'rxjs';
 import { TimesModel } from 'src/app/shared/models/times-model';
 import { TimerService } from 'src/app/shared/services/timer-service/timer.service';
-import { NgIf } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { SettingsComponent } from '../settings/settings.component';
 import { MatTabGroup, MatTab } from '@angular/material/tabs';
@@ -13,8 +12,7 @@ import { MatCard, MatCardHeader, MatCardContent } from '@angular/material/card';
   selector: 'app-timer',
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.scss'],
-  standalone: true,
-  imports: [MatCard, MatCardHeader, MatTabGroup, MatTab, SettingsComponent, MatCardContent, MatButton, NgIf],
+  imports: [MatCard, MatCardHeader, MatTabGroup, MatTab, SettingsComponent, MatCardContent, MatButton],
 })
 export class TimerComponent implements OnDestroy {
   private readonly MILLITOMIN: number = 60000;
